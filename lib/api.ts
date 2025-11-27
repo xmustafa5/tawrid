@@ -95,6 +95,16 @@ const api = axios.create({
 const ACCESS_TOKEN_KEY = 'access_token'
 const REFRESH_TOKEN_KEY = 'refresh_token'
 
+// Cookie helper functions
+const setCookie = (name: string, value: string, days: number = 7): void => {
+  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString()
+  document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`
+}
+
+const deleteCookie = (name: string): void => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+}
+
 // Token management utilities
 export const tokenStorage = {
   getAccessToken: (): string | null => {
@@ -113,12 +123,18 @@ export const tokenStorage = {
     if (typeof window !== 'undefined') {
       localStorage.setItem(ACCESS_TOKEN_KEY, accessToken)
       localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+      // Also set cookies for middleware
+      setCookie(ACCESS_TOKEN_KEY, accessToken)
+      setCookie(REFRESH_TOKEN_KEY, refreshToken)
     }
   },
   clearTokens: (): void => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(ACCESS_TOKEN_KEY)
       localStorage.removeItem(REFRESH_TOKEN_KEY)
+      // Also clear cookies
+      deleteCookie(ACCESS_TOKEN_KEY)
+      deleteCookie(REFRESH_TOKEN_KEY)
     }
   },
 }
