@@ -1,14 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx shadcn@latest add:*)"
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Bash(mkdir:*)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "context7"
     ],
     "deny": [],
     "ask": []
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "context7",
     "sequential-thinking"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
